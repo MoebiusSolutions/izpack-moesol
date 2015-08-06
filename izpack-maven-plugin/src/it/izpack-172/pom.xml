@@ -2,7 +2,7 @@
 <project>
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.codehaus.izpack</groupId>
+    <groupId>com.github.MoebiusSolutions</groupId>
     <artifactId>izpack-maven-plugin-integration-test</artifactId>
     <packaging>jar</packaging>
     <version>testing</version>
@@ -15,7 +15,7 @@
         <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
-                <groupId>org.codehaus.izpack</groupId>
+                <groupId>com.github.MoebiusSolutions</groupId>
                 <artifactId>izpack-maven-plugin</artifactId>
                 <version>${project.version}</version>
                 <executions>
