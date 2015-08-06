@@ -35,6 +35,7 @@ import java.util.Arrays;
 import java.util.Properties;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -75,6 +76,7 @@ import com.izforge.izpack.util.os.Win_RegistryHandler;
  *
  * @author Tim Anderson
  */
+@Ignore // For manual execution. Requires admin privileges in Windows
 @RunWith(PlatformRunner.class)
 @RunOn(Platform.Name.WINDOWS)
 public class RegistryInstallerListenerTest
