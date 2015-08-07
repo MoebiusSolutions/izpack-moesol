@@ -16,7 +16,7 @@
 
         <!-- this will override the one in the plugin -->
         <dependency>
-            <groupId>com.github.MoebiusSolutions</groupId>
+            <groupId>org.codehaus.izpack</groupId>
             <artifactId>izpack-standalone-compiler</artifactId>
             <version>4.0.1</version>
             <!-- dont want to download this artifact when retrieve the installer as transitive dependency -->
@@ -177,7 +177,7 @@
             </plugin>
 
             <plugin>
-                <groupId>com.github.MoebiusSolutions</groupId>
+                <groupId>org.codehaus.izpack</groupId>
                 <artifactId>izpack-maven-plugin</artifactId>
                 <version>1.0-alpha-3</version>
 

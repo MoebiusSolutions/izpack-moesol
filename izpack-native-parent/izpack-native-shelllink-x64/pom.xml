@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>izpack-native-parent</artifactId>
-        <groupId>com.github.MoebiusSolutions</groupId>
+        <groupId>org.codehaus.izpack</groupId>
         <version>5.0.3-moesol-1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -13,7 +13,7 @@
     <packaging>dll</packaging>
     <dependencies>
         <dependency>
-            <groupId>com.github.MoebiusSolutions</groupId>
+            <groupId>org.codehaus.izpack</groupId>
             <artifactId>izpack-installer</artifactId>
         </dependency>
     </dependencies>
@@ -47,7 +47,7 @@
                 </configuration>
                 <dependencies>
                     <dependency>
-                        <groupId>com.github.MoebiusSolutions</groupId>
+                        <groupId>org.codehaus.izpack</groupId>
                         <artifactId>izpack-native-maven-plugin</artifactId>
                         <version>${pom.version}</version>
                     </dependency>

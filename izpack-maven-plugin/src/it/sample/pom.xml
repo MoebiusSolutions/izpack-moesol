@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.MoebiusSolutions</groupId>
+    <groupId>org.codehaus.izpack</groupId>
     <artifactId>izpack-maven-plugin-example</artifactId>
     <version>1.0-SNAPSHOT</version>
 
@@ -13,7 +13,7 @@
     <dependencies>
 
         <dependency>
-            <groupId>com.github.MoebiusSolutions</groupId>
+            <groupId>org.codehaus.izpack</groupId>
             <artifactId>izpack-standalone-compiler</artifactId>
             <version>${izpack-standalone.version}</version>
             <optional>true</optional>
@@ -92,12 +92,12 @@
 
             <!--  see install.xml to see how MyHelloPanel is used -->
             <plugin>
-                <groupId>com.github.MoebiusSolutions</groupId>
+                <groupId>org.codehaus.izpack</groupId>
                 <artifactId>izpack-maven-plugin</artifactId>
                 <version>1.0-alpha-5</version>
                 <dependencies>
                     <dependency>
-                        <groupId>com.github.MoebiusSolutions</groupId>
+                        <groupId>org.codehaus.izpack</groupId>
                         <artifactId>izpack-standalone-compiler</artifactId>
                         <version>${izpack-standalone.version}</version>
                     </dependency>
