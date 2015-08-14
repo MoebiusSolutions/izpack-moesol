@@ -243,6 +243,24 @@ public class ProcessPanel extends IzPanel implements AbstractUIProcessHandler
      */
     public void startProcess(final String jobName)
     {
+        this.currentJob++;
+        logOutput(String.format("%n===== JOB: %s =====%n", jobName), false);
+        rollProcessCount(jobName);
+    }
+
+    /**
+     * Job skipped.
+     *
+     * @param jobName The job name.
+     */
+    public void skipProcess(final String jobName)
+    {
+        this.currentJob++;
+        logOutput(String.format("%n===== Skippping Completed JOB: %s =====%n", jobName), false);
+        rollProcessCount(jobName);
+    }
+
+    private void rollProcessCount(final String jobName) {
         SwingUtilities.invokeLater(new Runnable()
         {
             public void run()

@@ -122,6 +122,11 @@ public class ProcessPanelAutomation extends PanelAutomationHelper implements Pan
         System.out.println("Starting process " + name + " (" + currentJob + "/" + noOfJobs + ")");
     }
 
+    public void skipProcess(String name) {
+        currentJob++;
+        System.out.println("Skipping process " + name + " (" + currentJob + "/" + noOfJobs + ")");
+    }
+
     public void finishProcess()
     {
     }

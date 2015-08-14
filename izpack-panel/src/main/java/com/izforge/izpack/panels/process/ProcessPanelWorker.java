@@ -1,9 +1,30 @@
 package com.izforge.izpack.panels.process;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.swing.SwingUtilities;
+
 import com.izforge.izpack.api.adaptator.IXMLElement;
 import com.izforge.izpack.api.adaptator.IXMLParser;
 import com.izforge.izpack.api.adaptator.impl.XMLParser;
 import com.izforge.izpack.api.data.InstallData;
+import com.izforge.izpack.api.data.ScriptParserConstant;
 import com.izforge.izpack.api.data.Variables;
 import com.izforge.izpack.api.data.binding.OsModel;
 import com.izforge.izpack.api.handler.AbstractUIHandler;
@@ -13,15 +34,6 @@ import com.izforge.izpack.api.rules.RulesEngine;
 import com.izforge.izpack.util.IoHelper;
 import com.izforge.izpack.util.OsConstraintHelper;
 import com.izforge.izpack.util.PlatformModelMatcher;
-
-import javax.swing.*;
-import java.io.*;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * This class does alle the work for the process panel.
@@ -79,6 +91,24 @@ public class ProcessPanelWorker implements Runnable
      * The platform-model matcher.
      */
     private final PlatformModelMatcher matcher;
+
+    /**
+	 * A file used to record the progress of jobs, which can be consulted on
+	 * re-execution of the installer.
+	 */
+    private File jobProgressLogFile;
+
+    /**
+	 * Whether or not to skip jobs that were previously completed, per the
+	 * {@link #jobProgressLogFile}
+	 */
+    private boolean skipCompletedJobs = false;
+
+    /**
+	 * A utility used to log the progress of jobs to disk. Defaults to a no-op
+	 * implementation.
+	 */
+    private JobProgressLog jobProgressLog = new NoopJobProgressLog();
 
     /**
      * The logger.
@@ -143,6 +173,22 @@ public class ProcessPanelWorker implements Runnable
         if (logFileDirElement != null)
         {
             logfiledir = logFileDirElement.getContent();
+        }
+
+        // Handle progress logging
+        IXMLElement element = spec.getFirstChildNamed("progress_logging");
+        if (element != null)
+        {
+            IXMLElement childElement = element.getFirstChildNamed("log_file");
+            if (childElement != null) {
+                jobProgressLogFile = new File(childElement.getContent());
+                logger.log(Level.INFO, "Job execution progress log is: "+jobProgressLogFile);
+            }
+            childElement = element.getFirstChildNamed("skip_completed_jobs");
+            if (childElement != null && "yes".equalsIgnoreCase(childElement.getContent()) || "true".equalsIgnoreCase(childElement.getContent())) {
+                logger.log(Level.INFO, "Configured to skip completed jobs on re-execution");
+                skipCompletedJobs = true;
+            }
         }
 
         for (IXMLElement job_el : spec.getChildrenNamed("job"))
@@ -329,12 +375,17 @@ public class ProcessPanelWorker implements Runnable
                 File tempLogFile = File.createTempFile("Install_" + identifier + "_", ".log",
                                                        new File(logfiledir));
                 logfile = new PrintWriter(new FileOutputStream(tempLogFile), true);
+                this.handler.logOutput(String.format("%nLogging output to: %s%n", tempLogFile.getAbsolutePath()), false);
             }
             catch (IOException e)
             {
                 logger.log(Level.WARNING, e.getMessage(), e);
                 // TODO throw or throw not, that's the question...
             }
+        }
+
+        if (jobProgressLogFile != null) {
+            this.jobProgressLog = new JobProgressLogImpl(jobProgressLogFile);
         }
 
         this.handler.startProcessing(this.jobs.size());
@@ -405,15 +456,31 @@ public class ProcessPanelWorker implements Runnable
      */
     private boolean runJob(ProcessPanelWorker.ProcessingJob job)
     {
-        Boolean val;
+        // Skip job if configured to and already executed 
+        boolean skipJob = skipCompletedJobs && this.jobProgressLog.getLastCompletedTime(job.name) != null;
+        if (skipJob) {
+            this.handler.skipProcess(job.name);
+            return true;
+        }
+
+        Boolean jobSucceeded;
+
+        // Record job started
+        String appVersion = idata.getVariable(ScriptParserConstant.APP_VER);
+        this.jobProgressLog.logJobStarting(job.name, appVersion);
 
         this.handler.startProcess(job.name);
 
-        val = job.run(this.handler, idata.getVariables());
+        jobSucceeded = job.run(this.handler, idata.getVariables());
+
+        // Record job finished
+        if (jobSucceeded) {
+            this.jobProgressLog.logJobCompleted(job.name, appVersion);
+        }
 
         this.handler.finishProcess();
 
-        return val;
+        return jobSucceeded;
     }
 
     /**

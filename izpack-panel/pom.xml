@@ -82,5 +82,11 @@
             <version>5.2_01</version>
             <scope>test</scope>
         </dependency>
+        <!-- A basic testing utilities library. https://github.com/MoebiusSolutions/jacle -->
+        <dependency>
+          <groupId>jacle</groupId>
+          <artifactId>jacle-commons-test</artifactId>
+          <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>

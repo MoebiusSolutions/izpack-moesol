@@ -48,6 +48,13 @@ public interface AbstractUIProcessHandler extends AbstractUIHandler
      */
     public void startProcess(String name);
 
+    /**
+     * Notify the user that the process is being skipped.
+     *
+     * @param name
+     */
+    public void skipProcess(String name);
+
     public void finishProcess();
 
     public void finishProcessing(boolean unlockPrev, boolean unlockNext);

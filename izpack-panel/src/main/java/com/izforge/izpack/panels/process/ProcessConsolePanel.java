@@ -106,6 +106,13 @@ public class ProcessConsolePanel extends AbstractConsolePanel implements Console
                           + "/" + Integer.toString(this.noOfJobs) + ")", false);
     }
 
+    public void skipProcess(String name)
+    {
+        this.currentJob++;
+        logOutput("Skipping completed process " + name + " (" + Integer.toString(this.currentJob)
+                          + "/" + Integer.toString(this.noOfJobs) + ")", false);
+    }
+
     public void finishProcess()
     {
         // TODO Auto-generated method stub
