@@ -4,6 +4,12 @@
 
 **License**: IzPack-Moesol applies the same license as IzPack, specifically [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
+**Release Notes**:
+
+* **v5.0.3-moesol-1**
+    * Added support for skipping completed Process Panel job that were run on a previous execution
+    * Added logging of job titles to the Process Panel
+
 **End of Header**: All information that follows this section is a verbatim copy of the IzPack documentation.  
 
 # IzPack
