@@ -1,6 +1,6 @@
 # IzPack-MoeSol
 
-[IzPack-MoeSol](https://github.com/MoebiusSolutions/izpack-moesol) is a fork of the [IzPack](http://izpack.org/) package that adds some custom features for a particular environment used by customers of Moebius Solutions, Inc. The features to this module are not considered generally-applicable to IzPack. Any generally-applicable features will be contributed back to the upstream repo.
+[IzPack-MoeSol](https://github.com/MoebiusSolutions/izpack-moesol) is a fork of the [IzPack](http://izpack.org/) package that adds some custom features for a particular environment used by customers of Moebius Solutions, Inc. The features added to this module are not considered generally-applicable to IzPack. Any generally-applicable features will be contributed back to the upstream repo.
 
 **License**: IzPack-Moesol applies the same license as IzPack, specifically [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
