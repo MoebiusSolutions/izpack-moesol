@@ -181,7 +181,8 @@ public class ProcessPanelWorker implements Runnable
         {
             IXMLElement childElement = element.getFirstChildNamed("log_file");
             if (childElement != null) {
-                jobProgressLogFile = new File(childElement.getContent());
+                String path = IoHelper.translatePath(childElement.getContent(), idata.getVariables());
+                jobProgressLogFile = new File(path);
                 logger.log(Level.INFO, "Job execution progress log is: "+jobProgressLogFile);
             }
             childElement = element.getFirstChildNamed("skip_completed_jobs");
@@ -459,6 +460,9 @@ public class ProcessPanelWorker implements Runnable
         // Skip job if configured to and already executed 
         boolean skipJob = skipCompletedJobs && this.jobProgressLog.getLastCompletedTime(job.name) != null;
         if (skipJob) {
+            if (logfile != null) {
+                logfile.println(String.format("%n===== Skippping Completed JOB: %s =====%n", job.name));
+            }
             this.handler.skipProcess(job.name);
             return true;
         }
@@ -468,7 +472,9 @@ public class ProcessPanelWorker implements Runnable
         // Record job started
         String appVersion = idata.getVariable(ScriptParserConstant.APP_VER);
         this.jobProgressLog.logJobStarting(job.name, appVersion);
-
+        if (logfile != null) {
+            logfile.println(String.format("%n===== JOB: %s =====%n", job.name));
+        }
         this.handler.startProcess(job.name);
 
         jobSucceeded = job.run(this.handler, idata.getVariables());
