@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.codehaus.izpack</groupId>
   <artifactId>izpack</artifactId>
-  <version>5.0.3-moesol-2-SNAPSHOT</version>
+  <version>5.0.3-moesol-3-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>IzPack parent</name>
   <description>

@@ -3,7 +3,7 @@
     <parent>
         <artifactId>izpack</artifactId>
         <groupId>org.codehaus.izpack</groupId>
-        <version>5.0.3-moesol-2-SNAPSHOT</version>
+        <version>5.0.3-moesol-3-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
